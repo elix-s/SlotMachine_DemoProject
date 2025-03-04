@@ -13,6 +13,7 @@ namespace Features.SlotMachine
         [SerializeField] private SlotMachineScrollComponent _slotMachineScrollComponent;
         [SerializeField] private Button _button1;
         [SerializeField] private Button _button2;
+        [SerializeField] private GameObject _particleSystem;
         
         private bool _canBeStopped = false;
 
@@ -27,6 +28,7 @@ namespace Features.SlotMachine
             CreateFsm();
             
             _button2.interactable = false;
+            _particleSystem.SetActive(false);
         }
         
         private void CreateFsm()
@@ -55,6 +57,7 @@ namespace Features.SlotMachine
             _slotMachineScrollComponent.StartScrolling(3.0f, 3000).Forget();
             _button1.interactable = false;
             _canBeStopped = false;
+            if(_particleSystem.activeSelf) _particleSystem.SetActive(false);
             await UniTask.Delay(3000);
             _canBeStopped = true;
             _button2.interactable = true;
@@ -67,6 +70,7 @@ namespace Features.SlotMachine
                 _slotMachineScrollComponent.StopScrolling(2.0f).Forget();
                 _canBeStopped = false;
                 _button2.interactable = false;
+                _particleSystem.SetActive(true);
                 await UniTask.Delay(3000);
                 _button1.interactable = true;
             }
